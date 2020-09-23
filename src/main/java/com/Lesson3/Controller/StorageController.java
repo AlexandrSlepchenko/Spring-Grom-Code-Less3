@@ -1,14 +1,14 @@
 package com.Lesson3.Controller;
 
 import com.Lesson3.Model.Storage;
+
 import com.Lesson3.Service.StorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,13 +56,40 @@ public class StorageController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "DeleteStorage", produces = "text/plain")
     public @ResponseBody
-    void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            storageService.deleteById(Long.parseLong(req.getParameter("id")));
+            storageService.deleteById(Long.valueOf(req.getParameter("id")));
+            System.out.println("ok");
         } catch (Exception e) {
             resp.getWriter().println(e.getMessage());
         }
+        return "???";
     }
+
+    @DeleteMapping("/ParamDeleteStorage")
+    ResponseEntity<String> delete(
+            @RequestParam("longId") long id) {
+        System.out.println(id);
+        try{
+            storageService.deleteById(storageService.findById(id).getId());
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete123", produces = "text/plain")
+    public @ResponseBody
+    String deleteStorage(@RequestParam("id") long id){
+        try{
+            storageService.deleteById(id);
+            return "ok";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
 
     public Storage mapper(BufferedReader br) throws IOException {
         ObjectMapper mapper = new ObjectMapper();

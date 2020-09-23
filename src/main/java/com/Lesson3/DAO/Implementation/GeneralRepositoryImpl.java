@@ -1,5 +1,6 @@
-package com.Lesson3.DAO;
+package com.Lesson3.DAO.Implementation;
 
+import com.Lesson3.DAO.GeneralRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class GeneralRepositoryImpl<T> implements GeneralRepository<T> {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void deleteById(long id) {
         entityManager.detach(findById(id));
     }
 
