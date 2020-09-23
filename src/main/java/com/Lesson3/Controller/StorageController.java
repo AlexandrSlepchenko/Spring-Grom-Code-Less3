@@ -54,40 +54,18 @@ public class StorageController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "DeleteStorage", produces = "text/plain")
-    public @ResponseBody
-    String doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        try {
-            storageService.deleteById(Long.valueOf(req.getParameter("id")));
-            System.out.println("ok");
-        } catch (Exception e) {
-            resp.getWriter().println(e.getMessage());
-        }
-        return "???";
-    }
 
     @DeleteMapping("/ParamDeleteStorage")
     ResponseEntity<String> delete(
             @RequestParam("longId") long id) {
         System.out.println(id);
         try{
-            storageService.deleteById(storageService.findById(id).getId());
+            storageService.deleteById(id);
         } catch (Exception e){
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
         }
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete123", produces = "text/plain")
-    public @ResponseBody
-    String deleteStorage(@RequestParam("id") long id){
-        try{
-            storageService.deleteById(id);
-            return "ok";
-        }catch (Exception e){
-            return e.getMessage();
-        }
     }
 
 

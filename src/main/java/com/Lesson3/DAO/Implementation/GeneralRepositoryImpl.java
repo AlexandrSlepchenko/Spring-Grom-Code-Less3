@@ -40,7 +40,7 @@ public class GeneralRepositoryImpl<T> implements GeneralRepository<T> {
     @Override
     @Transactional
     public void deleteById(long id) {
-        entityManager.detach(findById(id));
+        entityManager.remove(entityManager.find(getMyType(), id));
     }
 
     @Override
