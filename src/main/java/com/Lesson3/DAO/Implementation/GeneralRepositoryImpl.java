@@ -37,7 +37,6 @@ public class GeneralRepositoryImpl<T> implements GeneralRepository<T> {
         return t;
     }
 
-
     @Override
     @Transactional
     public void deleteById(long id) {
