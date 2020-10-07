@@ -28,7 +28,7 @@ public class Flight {
         return id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Plane.class)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PLANE_ID", nullable = false)
     public Plane getPlane() {
         return plane;
